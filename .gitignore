@@ -1,2 +1,9 @@
 venv/
 .idea
+*/vendor/
+*/.byebug_history
+*/*.log
+*/.vagrant
+*/.bundle
+*/datasets/
+*/tests/
