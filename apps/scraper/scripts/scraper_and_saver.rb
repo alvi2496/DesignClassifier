@@ -9,12 +9,9 @@ def scraper_and_saver params
 	data_dir = params[:project_dir]
 	puts "Parsing data from #{pr_url}...".yellow
 	parsed_page = parser pr_url
-	repo_name = parsed_page&.css("div.repohead-details-container.clearfix.container")&.css("h1")&.css("a")&.children&.last&.text
-	file_name = "#{repo_name}_#{pr_url.tr("^0-9", '')}"
-	CSV.open("#{data_dir}/#{file_name}.csv", "a") do |csv|
-	 	csv << ["text"]
-	end
-	CSV.open("#{data_dir}/#{file_name}.csv", "a") do |csv|
+	# repo_name = parsed_page&.css("div.repohead-details-container.clearfix.container")&.css("h1")&.css("a")&.children&.last&.text
+	# file_name = "#{repo_name}_#{pr_url.tr("^0-9", '')}"
+	CSV.open("#{data_dir}/comments.csv", "a") do |csv|
 		pull_request_page = parsed_page
 		all_comments = [" "]
 		main_comments = pull_request_page&.css("div.timeline-comment-group.js-minimizable-comment-group.js-targetable-comment")&.css("td.d-block.comment-body.markdown-body.js-comment-body")&.children
@@ -56,5 +53,6 @@ def scraper_and_saver params
 			end
 		end
 	end
-	puts "Comments parsed from #{pr_url} and saved in datasets/#{file_name}.csv".green
+	# puts "Comments parsed from #{pr_url} and saved in #{data_dir}/#{file_name}.csv".green
+	puts "Done.".green
 end

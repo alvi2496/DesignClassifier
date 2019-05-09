@@ -4,8 +4,18 @@ PROJECT_ROOT=`pwd`
 
 cd apps/scraper/
 
-FILENAME=ruby scripts/main.rb $1 $2 ${PROJECT_ROOT}
-
-echo ${FILENAME}
+ruby scripts/main.rb $1 $2 ${PROJECT_ROOT}
 
 cd ${PROJECT_ROOT}
+
+cd apps/classifier/
+
+source venv/bin/activate
+
+python scripts/main.py ${PROJECT_ROOT}
+
+deactivate
+
+cd ${PROJECT_ROOT}
+
+rm comments.csv
