@@ -4,15 +4,17 @@ require 'set'
 require 'csv'
 require 'colorize'
 
-def scraper_and_saver pr_url
+def scraper_and_saver params
+	pr_url = params[:pr_url]
+	data_dir = params[:project_dir]
 	puts "Parsing data from #{pr_url}...".yellow
 	parsed_page = parser pr_url
 	repo_name = parsed_page&.css("div.repohead-details-container.clearfix.container")&.css("h1")&.css("a")&.children&.last&.text
 	file_name = "#{repo_name}_#{pr_url.tr("^0-9", '')}"
-	CSV.open("datasets/#{file_name}.csv", "a") do |csv|
-	 	csv << ["number", "comment", "type"]
+	CSV.open("#{data_dir}/#{file_name}.csv", "a") do |csv|
+	 	csv << ["text"]
 	end
-	CSV.open("datasets/#{file_name}.csv", "a") do |csv|
+	CSV.open("#{data_dir}/#{file_name}.csv", "a") do |csv|
 		pull_request_page = parsed_page
 		all_comments = [" "]
 		main_comments = pull_request_page&.css("div.timeline-comment-group.js-minimizable-comment-group.js-targetable-comment")&.css("td.d-block.comment-body.markdown-body.js-comment-body")&.children
@@ -50,10 +52,9 @@ def scraper_and_saver pr_url
 		end
 		all_comments.to_set.each do |comment|
 			unless comment.strip == ""
-				csv << ["#{pr_url.tr("^0-9", '')}", "#{comment}", "0"]
+				csv << ["#{comment}"]
 			end
 		end
 	end
-	puts "Comments parsed from #{pr_url} and saved in datasets/#{file_name}.csv".blue
-	puts "Action performed successfully".green
+	puts "Comments parsed from #{pr_url} and saved in datasets/#{file_name}.csv".green
 end
