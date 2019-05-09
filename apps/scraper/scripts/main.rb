@@ -8,6 +8,6 @@ load "scripts/scraper_and_saver.rb"
 
 # pr_url = "#{repo_url.strip}/pull/#{pr_number.strip}"
 
-params = { pr_url: "#{ARGV[0].strip}/pull/#{ARGV[1].strip}", project_dir: ARGV[2] }
+params = { pr_url: ARGV[0], project_dir: ARGV[1] }
 
 scraper_and_saver params

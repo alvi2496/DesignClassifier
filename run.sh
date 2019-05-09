@@ -4,7 +4,7 @@ PROJECT_ROOT=`pwd`
 
 cd apps/scraper/
 
-ruby scripts/main.rb $1 $2 ${PROJECT_ROOT}
+ruby scripts/main.rb $1 ${PROJECT_ROOT}
 
 cd ${PROJECT_ROOT}
 
